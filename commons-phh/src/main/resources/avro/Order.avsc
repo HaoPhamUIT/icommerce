@@ -1,0 +1,42 @@
+{
+	"name": "OrderAvro",
+	"type": "record",
+	"namespace": "vn.phh.kafka.message",
+	"fields": [{
+			"name": "id",
+			"type": "string"
+		},
+		{
+			"name": "amount",
+			"type": "string"
+		},
+		{
+			"name": "phone",
+			"type": "string"
+		},
+		{
+			"name": "address",
+			"type": "string"
+		},
+		{
+        			"name": "products",
+        			"type": {
+        				"type": "array",
+        				"items": {
+        					"name": "ProductAvro",
+        					"type": "record",
+        					"fields": [{
+        						"name": "id",
+        						"type": "string"
+        					},{
+        						"name": "name",
+        						"type": "string"
+        					},{
+        						"name": "price",
+        						"type": "string"
+        					}]
+        				}
+        			}
+        		}
+	]
+}
