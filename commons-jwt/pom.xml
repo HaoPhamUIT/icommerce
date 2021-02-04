@@ -11,7 +11,7 @@
     </parent>
     <groupId>vn.phh.commons</groupId>
     <artifactId>commons-jwt</artifactId>
-    <version>0.0.1</version>
+    <version>1.0</version>
     <name>jwt</name>
     <description>commons jwt</description>
 

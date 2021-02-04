@@ -26,9 +26,6 @@ public class JWTTokenProvider {
         this.rsa256 = rsa256;
     }
 
-    @Value("${jwt.token.secret}")
-    private String secret;
-
 
     /**
      * @param jwtBuilder

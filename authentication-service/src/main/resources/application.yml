@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: "dev"
+  main:
+    banner-mode: "off"
+---
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: authen
+  kafka:
+    consumer:
+      bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530
+    producer:
+      bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530
+server:
+  port: 8080
+  servlet:
+    context-path: /authen-service
+application:
+  jwt:
+    publicKey: cert/public_key.der
+    privateKey: cert/private_key.der
+
+---
+spring:
+  profiles: prod
+  data:
+    mongodb:
+      host: localhost
+      port: 27017

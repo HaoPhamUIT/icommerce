@@ -1,7 +1,7 @@
 package vn.phh.commons.jwt.utils;
 
 public class JWTCommonConstants {
-    public static final String TOKEN_PREFIX = "Mailinh ";
+    public static final String TOKEN_PREFIX = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
     public static final String ROLE = "role";
     public static final String BLANK = "";
