@@ -25,9 +25,9 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfo("Mai Linh REST API", "See the information.", "API", "Terms of service",
-				new Contact("Mai Linh Corporation", "https://mailinh.vn", "info@mailinh.vn"),
-				"License of Mai Linh Corporation", "API license URL", Collections.emptyList());
+		return new ApiInfo("Hao Pham REST API", "See the information.", "API", "Terms of service",
+				new Contact("HaoPham", "https://www.facebook.com/HaoPhamXstorm", "haopham@gmail.com"),
+				"License of Hao Pham", "API license URL", Collections.emptyList());
 	}
 
 }

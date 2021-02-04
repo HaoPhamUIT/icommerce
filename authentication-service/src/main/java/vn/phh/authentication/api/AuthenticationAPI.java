@@ -14,7 +14,7 @@ public interface AuthenticationAPI {
 
 
     @ApiOperation(value = "User login", response = Response.class)
-    @PostMapping(path = ApiConstants.LINE_MANAGEMENT)
+    @PostMapping(path = ApiConstants.USER_LOGIN)
     Response Login(@RequestBody UserRequest dto);
 
 
