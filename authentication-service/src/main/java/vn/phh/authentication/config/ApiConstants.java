@@ -16,4 +16,8 @@ public class ApiConstants {
     public static final String USER = "/user";
     public static final String USER_LOGIN = USER+ "/login";
 
+    public static final String PROFILE = "/profile";
+    public static final String PROFILE_END_POINT = PROFILE;
+    public static final String PROFILE_BY_ID_END_POINT = PROFILE_END_POINT + "/{id}";
+
 }
