@@ -10,20 +10,19 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: authen
+      database: product
   kafka:
     consumer:
       bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530
     producer:
       bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530
 server:
-  port: 8081
+  port: 8080
   servlet:
-    context-path: /authen-service
+    context-path: /product-service
 application:
   jwt:
     publicKey: cert/public_key.der
-    privateKey: cert/private_key.der
 
 ---
 spring:
