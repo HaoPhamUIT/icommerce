@@ -11,6 +11,7 @@ spring:
       host: localhost
       port: 27017
       database: product
+      auto-index-creation: false
   kafka:
     consumer:
       bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530

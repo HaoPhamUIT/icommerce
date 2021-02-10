@@ -8,7 +8,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
+import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.data.repository.support.PageableExecutionUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import vn.phh.commons.calendar.DateTimeUtils;
@@ -17,23 +20,26 @@ import vn.phh.product.converter.ProductConverter;
 import vn.phh.product.dto.ProductDTO;
 import vn.phh.product.dto.RequestFilterProduct;
 import vn.phh.product.model.Product;
+import vn.phh.product.repository.ProductHistoryRepository;
 import vn.phh.product.repository.ProductRepository;
 import vn.phh.product.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
 
+import static vn.phh.product.utils.Constants.*;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    public static final String FILTER_PRODUCT_NAME = "name";
-    public static final String FILTER_PRODUCT_BRAND = "brand";
-    public static final String FILTER_PRODUCT_PRICE = "price";
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private ProductConverter productConverter;
+
+    @Autowired
+    private ProductHistoryRepository productHistoryRepository;
 
     @Autowired
     MongoTemplate mongoTemplate;
@@ -42,15 +48,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO add(ProductDTO dto) {
         dto.setCreatedDate(DateTimeUtils.now());
-        return productConverter.convertToDTO(productRepository.save(productConverter.convertToEntity(dto)));
+        Product product = productRepository.save(productConverter.convertToEntity(dto));
+        addProductHistory(product);
+        return productConverter.convertToDTO(product);
     }
 
     @Override
     public ProductDTO update(String id, ProductDTO dto) {
-        Optional<Product> Product = productRepository.findById(id);
-        if (!Product.isPresent())
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (!productOptional.isPresent())
             throw new ResourceNotFoundException("Product is not exist");
-        return productConverter.convertToDTO(productRepository.save(productConverter.convertToEntity(dto)));
+        Product product = productRepository.save(productConverter.convertToEntity(dto));
+        if(productOptional.get().getPrice() != dto.getPrice()) {
+            addProductHistory(product);
+        }
+        return productConverter.convertToDTO(product);
     }
 
     @Override
@@ -103,6 +115,26 @@ public class ProductServiceImpl implements ProductService {
                 pageable,
                 () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Product.class)
         ).map(product -> productConverter.convertToDTO(product));
+    }
+
+    @Override
+    public Page<ProductDTO> searchProduct(String content, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        TextCriteria criteria = TextCriteria.forDefaultLanguage()
+                .matchingAny(content);
+        Query query = TextQuery.queryText(criteria).sortByScore();
+        List<Product> list = mongoTemplate.find(query, Product.class);
+        return PageableExecutionUtils.getPage(
+                list,
+                pageable,
+                () -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Product.class)
+        ).map(product -> productConverter.convertToDTO(product));
+    }
+
+    @Override
+    @Async
+    public void addProductHistory(Product product) {
+        productHistoryRepository.save(productConverter.convertToProductHistory(product));
     }
 
 }

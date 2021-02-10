@@ -27,8 +27,13 @@ public class ProductAPIImpl implements ProductAPI {
     }
 
     @Override
-    public Response listProduct(RequestFilterProduct requestFilterProduct, Integer page, Integer size, String direction, String attribute) {
+    public Response filterProduct(RequestFilterProduct requestFilterProduct, Integer page, Integer size, String direction, String attribute) {
         return new Response(productService.filterProduct(requestFilterProduct, page, size, direction, attribute));
+    }
+
+    @Override
+    public Response searchProduct(String content, Integer page, Integer size) {
+        return new Response(productService.searchProduct(content, page, size));
     }
 
     @Override

@@ -19,12 +19,17 @@ public interface ProductAPI {
 
     @ApiOperation(value = "Filter Product", response = Response.class)
     @PostMapping(path = ApiConstants.PRODUCT_FILTER)
-    Response listProduct(@RequestBody RequestFilterProduct requestFilterProduct,
-                         @RequestParam(name = "page", required = false, defaultValue = CommonConstants.DEFAULT_PAGE) Integer page,
-                         @RequestParam(name = "size", required = false, defaultValue = CommonConstants.DEFAULT_MAX_NO_OF_ROWS) Integer size,
-                         @RequestParam(name = "direction", required = false, defaultValue = CommonConstants.ASC_SORT) String direction,
-                         @RequestParam(name = "attribute", required = false, defaultValue = CommonConstants.ATTRIBUTE_DEFAULT) String attribute);
+    Response filterProduct(@RequestBody RequestFilterProduct requestFilterProduct,
+                           @RequestParam(name = "page", required = false, defaultValue = CommonConstants.DEFAULT_PAGE) Integer page,
+                           @RequestParam(name = "size", required = false, defaultValue = CommonConstants.DEFAULT_MAX_NO_OF_ROWS) Integer size,
+                           @RequestParam(name = "direction", required = false, defaultValue = CommonConstants.ASC_SORT) String direction,
+                           @RequestParam(name = "attribute", required = false, defaultValue = CommonConstants.ATTRIBUTE_DEFAULT) String attribute);
 
+    @ApiOperation(value = "Search Product", response = Response.class)
+    @PostMapping(path = ApiConstants.PRODUCT_SEARCH)
+    Response searchProduct(@RequestBody String content,
+                           @RequestParam(name = "page", required = false, defaultValue = CommonConstants.DEFAULT_PAGE) Integer page,
+                           @RequestParam(name = "size", required = false, defaultValue = CommonConstants.DEFAULT_MAX_NO_OF_ROWS) Integer size);
 
     @ApiOperation(value = "Add Product", response = Response.class)
     @PostMapping(path = ApiConstants.PRODUCT)

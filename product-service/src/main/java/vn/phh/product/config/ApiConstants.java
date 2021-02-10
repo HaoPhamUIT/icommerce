@@ -16,6 +16,7 @@ public class ApiConstants {
     public static final String PRODUCT = "/product";
     public static final String PRODUCT_END_POINT = PRODUCT;
     public static final String PRODUCT_FILTER = PRODUCT + "/filter";
+    public static final String PRODUCT_SEARCH = PRODUCT + "/search";
     public static final String PRODUCT_BY_ID_END_POINT = PRODUCT_END_POINT + ID;
 
 }
