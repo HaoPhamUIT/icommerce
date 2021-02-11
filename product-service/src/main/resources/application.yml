@@ -14,9 +14,9 @@ spring:
       auto-index-creation: false
   kafka:
     consumer:
-      bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530
+      bootstrap-servers: localhost:9092
     producer:
-      bootstrap-servers: 192.168.3.35:31528,192.168.3.35:31529,192.168.3.35:31530
+      bootstrap-servers: localhost:9092
 server:
   port: 8080
   servlet:

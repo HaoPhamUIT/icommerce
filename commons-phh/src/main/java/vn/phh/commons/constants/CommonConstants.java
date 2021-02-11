@@ -102,7 +102,7 @@ public class CommonConstants {
     public static final String ENGLISH_LANGUAGE = "en";
 
 
-    public static final String KAFKA_TOPIC_ORDER = "message.order";
+    public static final String KAFKA_TOPIC_ORDER = "order-product";
 
     //redis key
     public static final String REDIS_KEY_TRIP_CANCEL_DRIVERS = "trip_cancel_";

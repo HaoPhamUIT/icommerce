@@ -3,7 +3,7 @@
 	"type": "record",
 	"namespace": "vn.phh.kafka.message",
 	"fields": [{
-			"name": "id",
+			"name": "customerId",
 			"type": "string"
 		},
 		{
@@ -30,6 +30,12 @@
         						"type": "string"
         					},{
         						"name": "name",
+        						"type": "string"
+        					},{
+        						"name": "brand",
+        						"type": "string"
+        					},{
+        						"name": "colour",
         						"type": "string"
         					},{
         						"name": "price",
