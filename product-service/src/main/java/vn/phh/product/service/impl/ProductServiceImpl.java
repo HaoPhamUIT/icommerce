@@ -19,10 +19,14 @@ import vn.phh.commons.exception.ResourceNotFoundException;
 import vn.phh.product.converter.ProductConverter;
 import vn.phh.product.dto.ProductDTO;
 import vn.phh.product.dto.RequestFilterProduct;
+import vn.phh.product.dto.TrackingAction;
+import vn.phh.product.dto.TrackingDTO;
 import vn.phh.product.model.Product;
+import vn.phh.product.model.Tracking;
 import vn.phh.product.repository.ProductHistoryRepository;
 import vn.phh.product.repository.ProductRepository;
 import vn.phh.product.service.ProductService;
+import vn.phh.product.service.TrackingService;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +47,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
+    @Autowired
+    TrackingService trackingService;
+
+    @Autowired
+    private ClientServiceImpl clientService;
 
 
     @Override
@@ -67,6 +77,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO findById(String id) {
+        TrackingDTO tracking = new TrackingDTO();
+        tracking.setCustomerId(clientService.get().getId());
+        tracking.setActionKey(TrackingAction.VIEWER.getKey());
+        tracking.setActionName(TrackingAction.VIEWER.getValue());
+        tracking.setInfo(id);
+        trackingService.add(tracking);
         Optional<Product> Product = productRepository.findById(id);
         if (!Product.isPresent())
             throw new ResourceNotFoundException("Product is not exist");
@@ -90,6 +106,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> filterProduct(RequestFilterProduct requestFilterProduct, int page, int size, String direction, String attribute) {
+        TrackingDTO tracking = new TrackingDTO();
+        tracking.setCustomerId(clientService.get().getId());
+        tracking.setActionKey(TrackingAction.FILTER.getKey());
+        tracking.setActionName(TrackingAction.FILTER.getValue());
+        tracking.setInfo(requestFilterProduct.toString());
+        trackingService.add(tracking);
+
         Sort sortable = Sort.by(Sort.Direction.fromString(direction),attribute);
         Pageable pageable = PageRequest.of(page, size, sortable);
         Query query = new Query();
@@ -119,6 +142,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> searchProduct(String content, int page, int size) {
+        TrackingDTO tracking = new TrackingDTO();
+        tracking.setCustomerId(clientService.get().getId());
+        tracking.setActionKey(TrackingAction.SEARCH.getKey());
+        tracking.setActionName(TrackingAction.SEARCH.getValue());
+        tracking.setInfo(content);
+        trackingService.add(tracking);
         Pageable pageable = PageRequest.of(page, size);
         TextCriteria criteria = TextCriteria.forDefaultLanguage()
                 .matchingAny(content);
