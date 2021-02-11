@@ -49,7 +49,6 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<ProfileDTO> findAll() {
         List<ProfileDTO> ProfileDTOS = profileConverter.convertEntitiesToDTOs(profileRepository.findAll());
-        ProfileDTOS.sort(Comparator.comparingInt(ProfileDTO::getPriority));
         return ProfileDTOS;
     }
 

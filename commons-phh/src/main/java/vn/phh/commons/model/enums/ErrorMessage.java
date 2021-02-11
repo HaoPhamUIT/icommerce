@@ -10,9 +10,7 @@ import java.util.Map;
 
 public enum ErrorMessage {
 
-    /*
-    OTP
-     */
+
     ERROR_MISSING_DATA_PROFILE(1001, "Missing info customer please update info in profile", new HashMap<String, String>() {{
         put(CommonConstants.VIETNAMESE_LANGUAGE, "Bạn đang thiếu thông tin cá nhân, vui lòng cập nhập thông tin cá nhân");
     }});

@@ -1,27 +1,25 @@
-package vn.phh.product.dto;
+package vn.phh.product.dto.enums;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TrackingAction {
+public enum CartStatus {
 
-	SEARCH(0,  "Search product"),
+	IN_CART(0,  "Waiting order"),
 
-	FILTER(1, "Filter product"),
-
-	VIEWER(2, "Viewer product");
+	ORDERED(1, "Customer order");
 
 	private final int key;
 	private final String value;
 
-	private static Map<Integer, TrackingAction> tripMapping;
+	private static Map<Integer, CartStatus> tripMapping;
 
-	private TrackingAction(Integer key, String value) {
+	private CartStatus(Integer key, String value) {
 		this.key = key;
 		this.value = value;
 	}
 
-	public static TrackingAction getByKey(Integer key) {
+	public static CartStatus getByKey(Integer key) {
 		if (tripMapping == null) {
 			initMapping();
 		}
@@ -30,7 +28,7 @@ public enum TrackingAction {
 
 	private static void initMapping() {
 		tripMapping = new HashMap<>();
-		for (TrackingAction tripStatus : values()) {
+		for (CartStatus tripStatus : values()) {
 			tripMapping.put(tripStatus.getKey(), tripStatus);
 		}
 	}

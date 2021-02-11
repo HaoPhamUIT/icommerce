@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.phh.authentication.api.ProfileConfigAPI;
+import vn.phh.authentication.api.ProfileAPI;
 import vn.phh.authentication.config.ApiConstants;
 import vn.phh.authentication.dto.ProfileDTO;
 import vn.phh.authentication.service.ProfileService;
@@ -16,7 +16,7 @@ import vn.phh.commons.model.response.Response;
 
 @RestController
 @RequestMapping(value = ApiConstants.API_VERSION_1)
-public class ProfileConfigAPIImpl implements ProfileConfigAPI {
+public class ProfileAPIImpl implements ProfileAPI {
 
     @Autowired
     ProfileService profileService;

@@ -19,7 +19,7 @@ import vn.phh.commons.exception.ResourceNotFoundException;
 import vn.phh.product.converter.ProductConverter;
 import vn.phh.product.dto.ProductDTO;
 import vn.phh.product.dto.RequestFilterProduct;
-import vn.phh.product.dto.TrackingAction;
+import vn.phh.product.dto.enums.TrackingAction;
 import vn.phh.product.dto.TrackingDTO;
 import vn.phh.product.model.Product;
 import vn.phh.product.repository.product.ProductHistoryRepository;

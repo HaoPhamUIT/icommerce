@@ -3,7 +3,6 @@ package vn.phh.product.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-import vn.phh.commons.constants.CommonConstants;
 import vn.phh.commons.model.response.Response;
 import vn.phh.product.config.ApiConstants;
 import vn.phh.product.dto.CartDTO;

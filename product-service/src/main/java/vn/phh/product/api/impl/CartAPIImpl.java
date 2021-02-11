@@ -1,4 +1,4 @@
-package vn.phh.cart.api.impl;
+package vn.phh.product.api.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

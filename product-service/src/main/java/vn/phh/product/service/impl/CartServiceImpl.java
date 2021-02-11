@@ -1,5 +1,6 @@
 package vn.phh.product.service.impl;
 
+import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import vn.phh.kafka.message.OrderAvro;
 import vn.phh.kafka.message.ProductAvro;
 import vn.phh.product.converter.CartConverter;
 import vn.phh.product.dto.CartDTO;
+import vn.phh.product.dto.enums.CartStatus;
 import vn.phh.product.model.Cart;
 import vn.phh.product.model.Product;
 import vn.phh.product.model.Profile;
@@ -21,15 +23,18 @@ import vn.phh.product.repository.profile.ProfileRepository;
 import vn.phh.product.service.CartService;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import static vn.phh.commons.constants.CommonConstants.KAFKA_TOPIC_ORDER;
 import static vn.phh.product.utils.Constants.CART_IS_NOT_EXIST;
+import static vn.phh.product.utils.Constants.COULD_NOT_FOUND_PRODUCT;
 
 
 @Service
 public class CartServiceImpl implements CartService {
+
 
 
     @Autowired
@@ -111,27 +116,34 @@ public class CartServiceImpl implements CartService {
         order.setPhone(profile.get().getPhone());
         order.setAddress(profile.get().getAddress());
         List<ProductAvro> productAvros = new ArrayList<>();
-        Iterable<Cart> carts = cartRepository.findAllById(cartId);
+        Iterable<Cart> carts = cartRepository.findAllByIdInAndStatus(cartId, CartStatus.IN_CART.getKey());
         double amount = 0;
-        while (carts.iterator().hasNext()) {
-            Cart cart = carts.iterator().next();
-            Optional<Product> product = productRepository.findById(cart.getProductId());
-            if(product.isPresent()) {
-                ProductAvro productAvro = new ProductAvro();
-                productAvro.setBrand(product.get().getBrand());
-                productAvro.setPrice(product.get().getPrice());
-                productAvro.setColour(product.get().getColour());
-                productAvro.setId(product.get().getId());
-                productAvro.setName(product.get().getName());
-                amount = amount + product.get().getPrice();
-                productAvros.add(productAvro);
+        if(Iterables.size(carts) != 0) {
+            Iterator iterator = carts.iterator();
+            while (iterator.hasNext()) {
+                Cart cart = (Cart) iterator.next();
+                Optional<Product> product = productRepository.findById(cart.getProductId());
+                if (product.isPresent()) {
+                    ProductAvro productAvro = new ProductAvro();
+                    productAvro.setBrand(product.get().getBrand());
+                    productAvro.setPrice(product.get().getPrice());
+                    productAvro.setColour(product.get().getColour());
+                    productAvro.setId(product.get().getId());
+                    productAvro.setName(product.get().getName());
+                    productAvro.setProductNumber(cart.getProductNumber());
+                    amount = amount + product.get().getPrice()*cart.getProductNumber();
+                    productAvros.add(productAvro);
+                    //update status
+                    cart.setStatus(CartStatus.ORDERED.getKey());
+                    cartRepository.saveAll(carts);
+                    iterator.remove();
+                }
             }
-
-        }
+        }else throw new ResourceNotFoundException(COULD_NOT_FOUND_PRODUCT);
         order.setAmount(amount);
         order.setProducts(productAvros);
         orderAvroProducer.send(order, KAFKA_TOPIC_ORDER);
-        return false;
+        return true;
     }
 
 }

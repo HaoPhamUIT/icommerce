@@ -55,7 +55,7 @@ public class SwaggerConfig {
 
 
     private void setSwaggerModel(Docket docket) {
-        String[] packagesName = {"vn.mailinh.trip.response"};
+        String[] packagesName = {"vn.phh.product"};
         for (String packageName : packagesName) {
             URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(
                     CommonConstants.DOT, CommonConstants.SLASH));

@@ -9,13 +9,13 @@ public class ProfileDTO {
 
     private String id;
 
-    private String url;
+    private String fullName;
 
-    private String image;
+    private String phone;
 
-    private int priority;
+    private String address;
 
-    private boolean status;
+    private String email;
 
     private LocalDateTime createdDate;
 
