@@ -3,16 +3,25 @@ package vn.phh.product.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import vn.phh.commons.exception.BusinessException;
 import vn.phh.commons.exception.ResourceNotFoundException;
+import vn.phh.commons.kafka.producer.Producer;
+import vn.phh.commons.model.enums.ErrorMessage;
+import vn.phh.kafka.message.OrderAvro;
 import vn.phh.product.converter.CartConverter;
 import vn.phh.product.dto.CartDTO;
 import vn.phh.product.model.Cart;
+import vn.phh.product.model.Profile;
 import vn.phh.product.repository.CartRepository;
+import vn.phh.product.repository.profile.ProfileRepository;
 import vn.phh.product.service.CartService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static vn.phh.commons.constants.CommonConstants.KAFKA_TOPIC_ORDER;
 import static vn.phh.product.utils.Constants.CART_IS_NOT_EXIST;
 
 
@@ -31,6 +40,12 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
+    @Autowired
+    Producer<OrderAvro> orderAvroProducer;
+
+    @Autowired
+    ProfileRepository profileRepository;
 
 
     @Override
@@ -73,6 +88,24 @@ public class CartServiceImpl implements CartService {
             throw new ResourceNotFoundException(CART_IS_NOT_EXIST);
         cartRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public boolean orderProducts(List<String> cartId) {
+        Optional<Profile> profile = profileRepository.findById(clientService.get().getId());
+        if(!profile.isPresent() ||
+                StringUtils.isEmpty(profile.get().getPhone()) ||
+                StringUtils.isEmpty(profile.get().getAddress()) ||
+                StringUtils.isEmpty(profile.get().getFullName())){
+            throw new BusinessException(ErrorMessage.ERROR_MISSING_DATA_PROFILE);
+        }
+        OrderAvro order = new OrderAvro();
+        order.setCustomerId(profile.get().getId());
+        order.setFullName(profile.get().getFullName());
+        order.setPhone(profile.get().getPhone());
+        order.setAddress(profile.get().getAddress());
+        orderAvroProducer.send(order, KAFKA_TOPIC_ORDER);
+        return false;
     }
 
 }

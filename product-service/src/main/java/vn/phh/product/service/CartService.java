@@ -16,5 +16,7 @@ public interface CartService {
     List<CartDTO> findAll();
 
     boolean deleteById(String id);
+
+    boolean orderProducts(List<String> cartId);
     
 }

@@ -20,6 +20,7 @@ public class Producer<T> {
         SendResult<String, T> result = null;
         try {
             result = this.kafkaTemplate.send(topic, null, message).get();
+            System.out.println("Send: " +message);
         } catch (Exception e) {
             throw new ThirdPartyException(e);
         }

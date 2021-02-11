@@ -6,6 +6,10 @@
 			"name": "customerId",
 			"type": "string"
 		},
+        {
+            "name": "fullName",
+            "type": "string"
+        },
 		{
 			"name": "amount",
 			"type": "string"

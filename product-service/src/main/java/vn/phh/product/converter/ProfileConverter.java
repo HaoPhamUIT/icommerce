@@ -1,10 +1,10 @@
-package vn.phh.authentication.converter;
+package vn.phh.product.converter;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import vn.phh.authentication.dto.ProfileDTO;
-import vn.phh.authentication.model.Profile;
+import vn.phh.product.dto.ProfileDTO;
+import vn.phh.product.model.Profile;
 
 
 /**

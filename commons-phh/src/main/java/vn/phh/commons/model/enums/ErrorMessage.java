@@ -13,8 +13,8 @@ public enum ErrorMessage {
     /*
     OTP
      */
-    ERROR_OTP_WRONG_INPUT(1005, "wrong otp input", new HashMap<String, String>() {{
-        put(CommonConstants.VIETNAMESE_LANGUAGE, "Bạn nhập sai OTP, hãy nhập lại!");
+    ERROR_MISSING_DATA_PROFILE(1001, "Missing info customer please update info in profile", new HashMap<String, String>() {{
+        put(CommonConstants.VIETNAMESE_LANGUAGE, "Bạn đang thiếu thông tin cá nhân, vui lòng cập nhập thông tin cá nhân");
     }});
 
 
