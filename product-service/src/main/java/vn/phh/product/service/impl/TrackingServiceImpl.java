@@ -8,8 +8,7 @@ import vn.phh.commons.exception.ResourceNotFoundException;
 import vn.phh.product.converter.TrackingConverter;
 import vn.phh.product.dto.TrackingDTO;
 import vn.phh.product.model.Tracking;
-import vn.phh.product.repository.TrackingRepository;
-import vn.phh.product.service.TrackingService;
+import vn.phh.product.repository.product.TrackingRepository;
 import vn.phh.product.service.TrackingService;
 
 import java.util.List;

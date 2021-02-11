@@ -22,9 +22,8 @@ import vn.phh.product.dto.RequestFilterProduct;
 import vn.phh.product.dto.TrackingAction;
 import vn.phh.product.dto.TrackingDTO;
 import vn.phh.product.model.Product;
-import vn.phh.product.model.Tracking;
-import vn.phh.product.repository.ProductHistoryRepository;
-import vn.phh.product.repository.ProductRepository;
+import vn.phh.product.repository.product.ProductHistoryRepository;
+import vn.phh.product.repository.product.ProductRepository;
 import vn.phh.product.service.ProductService;
 import vn.phh.product.service.TrackingService;
 

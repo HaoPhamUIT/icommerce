@@ -12,6 +12,8 @@ import vn.phh.product.config.ApiConstants;
 import vn.phh.product.dto.CartDTO;
 import vn.phh.product.service.CartService;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = ApiConstants.API_VERSION_1)
@@ -28,6 +30,11 @@ public class CartAPIImpl implements CartAPI {
     @Override
     public Response add(@RequestBody CartDTO dto) {
         return new Response(cartService.add(dto));
+    }
+
+    @Override
+    public Response add(List<String> dto) {
+        return new Response(cartService.orderProducts(dto));
     }
 
     @Override

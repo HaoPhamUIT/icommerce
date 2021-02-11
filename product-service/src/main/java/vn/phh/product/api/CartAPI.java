@@ -8,6 +8,8 @@ import vn.phh.commons.model.response.Response;
 import vn.phh.product.config.ApiConstants;
 import vn.phh.product.dto.CartDTO;
 
+import java.util.List;
+
 
 @Api(value = "Cart api", description = "Cart APIs")
 public interface CartAPI {
@@ -19,6 +21,10 @@ public interface CartAPI {
     @ApiOperation(value = "Add Cart by customer", response = Response.class)
     @PostMapping(path = ApiConstants.CART)
     Response add(@RequestBody CartDTO dto);
+
+    @ApiOperation(value = "Order products by customer", response = Response.class)
+    @PostMapping(path = ApiConstants.ORDER)
+    Response add(@RequestBody List<String> dto);
 
     @ApiOperation(value = "Update Cart by customer", response = Response.class)
     @PutMapping(path = ApiConstants.CART)

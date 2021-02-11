@@ -9,15 +9,18 @@ import vn.phh.commons.exception.ResourceNotFoundException;
 import vn.phh.commons.kafka.producer.Producer;
 import vn.phh.commons.model.enums.ErrorMessage;
 import vn.phh.kafka.message.OrderAvro;
+import vn.phh.kafka.message.ProductAvro;
 import vn.phh.product.converter.CartConverter;
 import vn.phh.product.dto.CartDTO;
 import vn.phh.product.model.Cart;
+import vn.phh.product.model.Product;
 import vn.phh.product.model.Profile;
-import vn.phh.product.repository.CartRepository;
+import vn.phh.product.repository.product.CartRepository;
+import vn.phh.product.repository.product.ProductRepository;
 import vn.phh.product.repository.profile.ProfileRepository;
 import vn.phh.product.service.CartService;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +49,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     ProfileRepository profileRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
 
     @Override
@@ -104,6 +110,26 @@ public class CartServiceImpl implements CartService {
         order.setFullName(profile.get().getFullName());
         order.setPhone(profile.get().getPhone());
         order.setAddress(profile.get().getAddress());
+        List<ProductAvro> productAvros = new ArrayList<>();
+        Iterable<Cart> carts = cartRepository.findAllById(cartId);
+        double amount = 0;
+        while (carts.iterator().hasNext()) {
+            Cart cart = carts.iterator().next();
+            Optional<Product> product = productRepository.findById(cart.getProductId());
+            if(product.isPresent()) {
+                ProductAvro productAvro = new ProductAvro();
+                productAvro.setBrand(product.get().getBrand());
+                productAvro.setPrice(product.get().getPrice());
+                productAvro.setColour(product.get().getColour());
+                productAvro.setId(product.get().getId());
+                productAvro.setName(product.get().getName());
+                amount = amount + product.get().getPrice();
+                productAvros.add(productAvro);
+            }
+
+        }
+        order.setAmount(amount);
+        order.setProducts(productAvros);
         orderAvroProducer.send(order, KAFKA_TOPIC_ORDER);
         return false;
     }

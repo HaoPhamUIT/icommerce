@@ -21,6 +21,7 @@ public class ApiConstants {
 
 
     public static final String CART = "/cart";
+    public static final String ORDER = "/order";
     public static final String CART_END_POINT = CART;
     public static final String CART_BY_ID_END_POINT = CART_END_POINT + ID;
 

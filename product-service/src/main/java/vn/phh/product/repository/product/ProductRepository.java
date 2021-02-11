@@ -1,4 +1,4 @@
-package vn.phh.product.repository;
+package vn.phh.product.repository.product;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
