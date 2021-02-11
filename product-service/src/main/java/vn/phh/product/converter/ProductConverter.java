@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * @author haoph
  */
-@Component("ProductConverter")
+@Component("productConverter")
 public class ProductConverter extends SuperConverter<ProductDTO, Product> {
 
     @Autowired
