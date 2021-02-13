@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authen-service
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app:authen-service
+  template:
+    metadata:
+      labels:
+        app: authen-service
+    spec:
+      containers:
+        - name: authen-service
+          image: 192.168.3.32:32005/authen-service:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "25m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: spring.data.mongodb.host
+              value: {host-mongo}
+            - name: spring.data.mongodb.port
+              value: 27017
+            - name: spring.data.mongodb.database
+              value: authen
+            - name: application.jwt.publicKey
+              value: file:{path}/public_key.der
+            - name: application.jwt.privateKey
+              value: file:{path}/private_key.der
+            - name: spring.kafka.producer.bootstrap-servers
+              value:
+            - name: spring.kafka.consumer.bootstrap-servers
+              value:
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authen-service
+  namespace: dev
+  labels:
+    app: authen-service
+spec:
+  ports:
+    - port: 8080
+      name: authen-service
+      nodePort: 31516
+      targetPort: 8080
+  type: NodePort
+  selector:
+    app: authen-service

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app:order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: 192.168.3.32:32005/order-service:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "25m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: spring.data.mongodb.host
+              value: {host-mongo}
+            - name: spring.data.mongodb.port
+              value: 27017
+            - name: spring.data.mongodb.database
+              value: order
+            - name: application.jwt.publicKey
+              value: file:{path}/public_key.der
+            - name: spring.kafka.producer.bootstrap-servers
+              value:
+            - name: spring.kafka.consumer.bootstrap-servers
+              value:
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: dev
+  labels:
+    app: order-service
+spec:
+  ports:
+    - port: 8080
+      name: order-service
+      nodePort: 31516
+      targetPort: 8080
+  type: NodePort
+  selector:
+    app: order-service
