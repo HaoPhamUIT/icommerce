@@ -11,7 +11,6 @@ import vn.phh.authentication.model.User;
 import vn.phh.authentication.repository.UserRepository;
 import vn.phh.authentication.service.AuthenticationService;
 import vn.phh.authentication.utils.Constants;
-import vn.phh.commons.exception.BusinessException;
 import vn.phh.commons.exception.IllegalServiceException;
 
 import java.util.Optional;
@@ -30,8 +29,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
    @Override
    public String login(UserRequest userRequest) {
-      if(!StringUtils.isEmpty(userRequest.getSocialKey()) && !StringUtils.isEmpty((userRequest.getSocialType()))){
-         Optional<User> user = userRepository.findBySocialKeyAndSocialType(userRequest.getSocialKey(), userRequest.getSocialType());
+      if(!StringUtils.isEmpty(userRequest.getSocialNetworkKey()) && !StringUtils.isEmpty((userRequest.getSocialNetworkType()))){
+         Optional<User> user = userRepository.findBySocialNetworkKeyAndSocialNetworkType(userRequest.getSocialNetworkKey(), userRequest.getSocialNetworkType());
          if(!user.isPresent()){
              return jwtComponent.createToken(userRepository.save(userConverter.convertToEntity(userRequest)));
          }else return jwtComponent.createToken(user.get());

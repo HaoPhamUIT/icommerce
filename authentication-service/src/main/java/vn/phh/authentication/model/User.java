@@ -15,9 +15,9 @@ public class User {
 
     private String username;
 
-    private String socialType;
+    private int socialNetworkType;
 
-    private String socialKey;
+    private String socialNetworkKey;
 
     private String deviceId;
 

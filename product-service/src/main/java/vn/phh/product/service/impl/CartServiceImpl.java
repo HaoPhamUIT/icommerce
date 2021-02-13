@@ -27,9 +27,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import static vn.phh.commons.constants.CommonConstants.KAFKA_TOPIC_ORDER;
-import static vn.phh.product.utils.Constants.CART_IS_NOT_EXIST;
-import static vn.phh.product.utils.Constants.COULD_NOT_FOUND_PRODUCT;
+import static vn.phh.commons.constants.CommonConstants.*;
+import static vn.phh.product.utils.Constants.*;
 
 
 @Service
@@ -116,7 +115,8 @@ public class CartServiceImpl implements CartService {
         order.setPhone(profile.get().getPhone());
         order.setAddress(profile.get().getAddress());
         List<ProductAvro> productAvros = new ArrayList<>();
-        Iterable<Cart> carts = cartRepository.findAllByIdInAndStatus(cartId, CartStatus.IN_CART.getKey());
+        Iterable<Cart> carts = cartRepository.findAllByIdInAndStatusAndCustomerId(
+                cartId, CartStatus.IN_CART.getKey(), profile.get().getId());
         double amount = 0;
         if(Iterables.size(carts) != 0) {
             Iterator iterator = carts.iterator();
@@ -131,6 +131,7 @@ public class CartServiceImpl implements CartService {
                     productAvro.setId(product.get().getId());
                     productAvro.setName(product.get().getName());
                     productAvro.setProductNumber(cart.getProductNumber());
+                    productAvro.setImages(product.get().getImages());
                     amount = amount + product.get().getPrice()*cart.getProductNumber();
                     productAvros.add(productAvro);
                     //update status
@@ -139,7 +140,7 @@ public class CartServiceImpl implements CartService {
                     iterator.remove();
                 }
             }
-        }else throw new ResourceNotFoundException(COULD_NOT_FOUND_PRODUCT);
+        }else throw new ResourceNotFoundException(COULD_NOT_FOUND_ORDER);
         order.setAmount(amount);
         order.setProducts(productAvros);
         orderAvroProducer.send(order, KAFKA_TOPIC_ORDER);

@@ -47,7 +47,14 @@
         					},{
         						"name": "productNumber",
         						"type": "int"
-        					}]
+        					},
+        					{
+                              "name":"images",
+                              "type": {
+                                  "type": "array",
+                                  "items": "string"
+                               }
+                            } ]
         				}
         			}
         		}

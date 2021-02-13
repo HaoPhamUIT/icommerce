@@ -6,12 +6,8 @@ import lombok.Data;
 public class UserRequest {
 
     private String id;
-//
-//    private String username;
 
-    private String socialType;
+    private int socialNetworkType;
 
-    private String socialKey;
-
-    private String deviceId;
+    private String socialNetworkKey;
 }
