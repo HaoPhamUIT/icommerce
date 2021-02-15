@@ -4,15 +4,23 @@ applied:
 	- Patterns & practices being: Factory pattern, OOP, Solid 
 b.Brief explanation for the code folder structure and the key Java libraries and frameworks
 being used:
- <a href="https://imgbb.com/"><img src="https://i.ibb.co/kmn6ZLn/Capture.png" alt="Capture" border="0"></a>
+
  ![alt text](https://i.ibb.co/kmn6ZLn/Capture.png)
+c. All the required steps in order to get the application run on local computer:
+- Clone all project in github, and build steps in order with : "mvn clean install": commons-jwt, commons-phh, authentication-service, product-service, order-service
+- Download kafka: https://kafka.apache.org/downloads and install in local.
+ 	+ Run zookeper: zookeeper-server-start.bat ..\..\config\zookeeper.properties
+	+ Run kafka: kafka-server-start.bat ..\..\config\server.properties
+	+ Create topic: kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic order-product
+	+ Check list topic: kafka-topics.bat --list --zookeeper localhost:2181
+- Install mongoDb: https://www.mongodb.com/try/download/community
+- The last we'll run three project: authentication-service, product-service, order-service and we have swagger api:
+ 	+  product-service: http://localhost:8080/product-service/swagger-ui.html
+	+  authentication-service: http://localhost:8081/authen-service/swagger-ui.html
+	+  order-service: http://localhost:8082/order-service/swagger-ui.html
+d. Full CURL commands to verify the APIs: video demo: https://youtu.be/Q7QUkgY80_g
+	
+	
 
-Document
 
--certificate :
 
-	phh.cer : keytool -import -file phh.cer -keystore cacerts or 
-	windown: C:\Program Files\Java\jdk1.8.0_191\jre\lib\security>keytool -import -alias mlc -file D:\project\document\certificate\phh.cer -keystore cacerts
--jwt : use when work with commons-jwt
-	private_key.der : generate jwt token
-	public_key.der : validate or claims jwt token
