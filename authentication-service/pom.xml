@@ -43,6 +43,10 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
             <groupId>vn.phh.commons</groupId>
             <artifactId>commons-phh</artifactId>
             <version>1.0</version>

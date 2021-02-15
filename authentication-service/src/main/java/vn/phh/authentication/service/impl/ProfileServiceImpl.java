@@ -6,6 +6,7 @@ import vn.phh.authentication.converter.ProfileConverter;
 import vn.phh.authentication.dto.ProfileDTO;
 import vn.phh.authentication.model.Profile;
 import vn.phh.authentication.repository.ProfileRepository;
+import vn.phh.authentication.service.ClientService;
 import vn.phh.authentication.service.ProfileService;
 import vn.phh.commons.calendar.DateTimeUtils;
 import vn.phh.commons.exception.ResourceNotFoundException;
@@ -23,9 +24,12 @@ public class ProfileServiceImpl implements ProfileService {
     @Autowired
     private ProfileConverter profileConverter;
 
+    @Autowired
+    private ClientServiceImpl clientService;
 
     @Override
     public ProfileDTO add(ProfileDTO dto) {
+        dto.setId(clientService.get().getId());
         dto.setCreatedDate(DateTimeUtils.now());
         return profileConverter.convertToDTO(profileRepository.save(profileConverter.convertToEntity(dto)));
     }

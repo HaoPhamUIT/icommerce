@@ -20,9 +20,8 @@ public class ApiConstants {
     public static final String PRODUCT_BY_ID_END_POINT = PRODUCT_END_POINT + ID;
 
 
-    public static final String CART = "/cart";
     public static final String ORDER = "/order";
-    public static final String CART_END_POINT = CART;
-    public static final String CART_BY_ID_END_POINT = CART_END_POINT + ID;
+    public static final String ORDER_END_POINT = ORDER;
+    public static final String ORDER_BY_ID_END_POINT = ORDER_END_POINT + ID;
 
 }

@@ -1,4 +1,4 @@
-package vn.phh.authentication.api;
+package vn.phh.authentication.api.profile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
