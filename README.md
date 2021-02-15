@@ -4,7 +4,8 @@ applied:
 	- Patterns & practices being: Factory pattern, OOP, Solid 
 b.Brief explanation for the code folder structure and the key Java libraries and frameworks
 being used:
- ![alt text](https://i.ibb.co/dJMgrp5/Capture.png)
+ <a href="https://imgbb.com/"><img src="https://i.ibb.co/kmn6ZLn/Capture.png" alt="Capture" border="0"></a>
+ ![alt text](https://i.ibb.co/kmn6ZLn/Capture.png)
 
 Document
 
