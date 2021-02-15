@@ -3,7 +3,7 @@ applied:
 - I complete the project in 7 days, analyze and design 1 day, code 6 days (2 hours / day). A total of 14 hours.
 - Patterns & practices being: Factory pattern, OOP, Solid.
 	
-b.Brief explanation for the code folder structure and the key Java libraries and frameworks
+b. Brief explanation for the code folder structure and the key Java libraries and frameworks
 being used:
 
  ![alt text](https://i.ibb.co/kmn6ZLn/Capture.png)
