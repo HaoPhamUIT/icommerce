@@ -1,5 +1,7 @@
 package vn.phh.product.test.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import java.util.stream.IntStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,5 +73,42 @@ public class ProductApiTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data", hasSize(10)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.[0].name", is("name-0")));
+    }
+
+    @Test
+    public void testCreateProduct() throws Exception {
+        ProductDTO productRequestBody = new ProductDTO(
+                "userId-test",
+                "Giày thể thao nam",
+                200000,
+                "nike",
+                "xanh" ,
+                null,
+                10,
+                null,
+                null);
+
+        ProductDTO productMock = new ProductDTO(
+                "userId-test",
+                "Giày thể thao nam",
+                200000,
+                "nike",
+                "xanh" ,
+                null,
+                10,
+                null,
+                null);
+
+        given(productService.add(any(ProductDTO.class))).willReturn(productMock);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String jsonProductRequestBody = ow.writeValueAsString(productRequestBody);
+        mvc.perform( MockMvcRequestBuilders
+                .post("/api/v1/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonProductRequestBody)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.name", is("Giày thể thao nam")));
     }
 }
