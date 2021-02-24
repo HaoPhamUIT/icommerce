@@ -1,3 +1,7 @@
+Entity-relationship-diagram: 
+
+![alt text](https://i.ibb.co/qmS7SBh/Entity-relationship-diagram.png)
+
 a. Brief explanation for the software development principles, patterns & practices being
 applied:
 - I complete the project in 7 days, analyze and design 1 day, code 6 days (2 hours / day). A total of 14 hours.
